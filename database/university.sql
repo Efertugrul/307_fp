@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 
 
 CREATE TABLE `courses` (
-  `course_code` varchar(50) NOT NULL,
+  `course_code` varchar(50) NOT NULL AUTO_INCREMENT,
   `course_name` varchar(255) NOT NULL,
   `course_description` text DEFAULT NULL,
   PRIMARY KEY (`course_code`)
@@ -28,7 +28,7 @@ CREATE TABLE `courses` (
 
 
 CREATE TABLE `sections` (
-  `section_code` int(11) NOT NULL,
+  `section_code` int NOT NULL AUTO_INCREMENT,
   `semester` varchar(11) NOT NULL,
   `professor` varchar(100) DEFAULT NULL,
   `course_code` varchar(50) NOT NULL,
@@ -38,39 +38,39 @@ CREATE TABLE `sections` (
 
 
 CREATE TABLE `lectures` (
-  `lecture_id` int(11) NOT NULL,
+  `lecture_id` int NOT NULL AUTO_INCREMENT,
   `location` varchar(100) DEFAULT NULL,
   `day_of_week` enum('Mon','Tue','Wed','Thu','Fri') NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
-  `section_code` int(11) NOT NULL,
+  `section_code` int NOT NULL,
   PRIMARY KEY (`lecture_id`),
   CONSTRAINT `fk_section_code` FOREIGN KEY (`section_code`) REFERENCES `sections` (`section_code`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 CREATE TABLE `students` (
-  `student_id` int(11) NOT NULL,
+  `student_id` int NOT NULL AUTO_INCREMENT,
   `fname` varchar(100) DEFAULT NULL,
   `lname` varchar(100) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password_hash` varchar(255) DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL
+  `remember_token` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 CREATE TABLE `coursesEnrolled` (
-  `student_id` int(11) NOT NULL,
-  `section_code` int(11) NOT NULL,
-  PRIMARY KEY (`student_id`, `section_code`)
+  `student_id` int NOT NULL,
+  `section_code` int NOT NULL,
+  PRIMARY KEY (`student_id`, `section_code`),
   CONSTRAINT `fk_enrolled_student` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_enrolled_section` FOREIGN KEY (`section_code`) REFERENCES `sections` (`section_code`)  ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 CREATE TABLE `coursesCompleted` (
-  `student_id` int(11) NOT NULL,
+  `student_id` int NOT NULL,
   `course_code` varchar(50) NOT NULL,
   PRIMARY KEY (`student_id`, `course_code`),
   CONSTRAINT `fk_completed_student` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE,
@@ -79,8 +79,8 @@ CREATE TABLE `coursesCompleted` (
 
 
 CREATE TABLE `FriendsWith` (
-  `student_id1` int(11) NOT NULL,
-  `student_id2` int(11) NOT NULL,
+  `student_id1` int NOT NULL,
+  `student_id2` int NOT NULL,
   PRIMARY KEY (`student_id1`, `student_id2`),
   CONSTRAINT `fk_friend1` FOREIGN KEY (`student_id1`) REFERENCES `students` (`student_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_friend2` FOREIGN KEY (`student_id2`) REFERENCES `students` (`student_id`) ON DELETE CASCADE
@@ -111,81 +111,87 @@ INSERT INTO `courses` (`course_code`, `course_name`, `course_description`) VALUE
 
 
 INSERT INTO `sections` (`section_code`, `semester`, `professor`, `course_code`) VALUES
-(4819, 'F24', `Peter Johnson`, `BIOL101`),
-(2057, 'F24', `John Green`,`BIOL202`),
-(3220, 'W25', `Michael Rodriguez`,`BIOL303`),
-(8301, 'W25', `Don Miller`,`BIOL404`);
+(4819, 'F24', 'Peter Johnson', 'BIOL101'),
+(2057, 'F24', 'John Green', 'BIOL202'),
+(3220, 'W25', 'Michael Rodriguez', 'BIOL303'),
+(8301, 'W25', 'Don Miller', 'BIOL404');
 
 
-INSERT INTO `lectures` (`lecture_id`, `day_of_week`, `semester_id`, `day_of_week`, `start_time`, `end_time`, `location`) VALUES
-(1, 1, 1, 'Mon', '09:00:00', '10:00:00', 'Room A'),
-(2, 1, 1, 'Wed', '09:00:00', '10:00:00', 'Room A'),
-(3, 2, 1, 'Tue', '13:00:00', '14:30:00', 'Room B'),
-(4, 3, 1, 'Fri', '10:00:00', '12:00:00', 'Room C');
+INSERT INTO `lectures` (`lecture_id`, `location`, `day_of_week`, `start_time`, `end_time`, `section_code`) VALUES
+(9872, 'Room A', 'Mon', '09:00:00', '10:00:00', 4819),
+(5084, 'Room B', 'Wed', '09:00:00', '10:00:00', 2057),
+(1024, 'Room C', 'Tue', '13:00:00', '14:30:00', 3220),
+(4895, 'Room D', 'Fri', '10:00:00', '12:00:00', 8301);
 
 
-INSERT INTO `users` (`id`, `student_id`, `email`, `username`, `password_hash`, `remember_token`) VALUES
-(1, 'S1001', 'alice.smith@university.edu', 'Efstarisback', '$2y$10$QUvS4QATistNhdFM2qTf7u2cUfphR9LGbowI8Y2ZIf8rrKvBeM9C6', NULL),
-(2, 'S1002', 'bob.johnson@university.edu', NULL, NULL, NULL),
-(3, 'S1003', 'charlie.brown@university.edu', 'Efert', '$2y$10$AJPLF204rYwoLfsFsfbMTuOw6kXkCAbJu7ZYMvDqabQlRAbWDVGfK', NULL),
-(4, 'S1004', 'diana.prince@university.edu', NULL, NULL, NULL),
-(5, 'S1005', 'edward.norton@university.edu', NULL, NULL, NULL),
-(6, 'S1006', 'fiona.apple@university.edu', NULL, NULL, NULL),
-(7, 'S1007', 'george.clooney@university.edu', NULL, NULL, NULL),
-(8, 'S1008', 'hannah.montana@university.edu', NULL, NULL, NULL),
-(9, 'S1009', 'ian.mckellen@university.edu', NULL, NULL, NULL),
-(10, 'S1010', 'julia.roberts@university.edu', NULL, NULL, NULL);
+INSERT INTO `students` (`student_id`, `fname`, `lname`, `email`, `password_hash`, `remember_token`) VALUES
+(1, 'John', 'Wood', 'alice.smith@university.edu', 'Efstarisback', '$2y$10$QUvS4QATistNhdFM2qTf7u2cUfphR9LGbowI8Y2ZIf8rrKvBeM9C6', NULL),
+(2, 'Jim', 'King', 'bob.johnson@university.edu', NULL, NULL, NULL),
+(3, 'Tony', 'Cole', 'charlie.brown@university.edu', 'Efert', '$2y$10$AJPLF204rYwoLfsFsfbMTuOw6kXkCAbJu7ZYMvDqabQlRAbWDVGfK', NULL),
+(4, 'Mike', 'Reed', 'diana.prince@university.edu', NULL, NULL, NULL),
+(5, 'David', 'West', 'edward.norton@university.edu', NULL, NULL, NULL),
+(6, 'Tim', 'Page', 'fiona.apple@university.edu', NULL, NULL, NULL),
+(7, 'Frank', 'Snow', 'george.clooney@university.edu', NULL, NULL, NULL),
+(8, 'Ben', 'Gray', 'hannah.montana@university.edu', NULL, NULL, NULL),
+(9, 'Mark', 'Lane', 'ian.mckellen@university.edu', NULL, NULL, NULL),
+(10, 'Paul', 'Ford', 'julia.roberts@university.edu', NULL, NULL, NULL);
 
 
---
--- Tablo için AUTO_INCREMENT değeri `courses`
---
-ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+INSERT INTO `coursesEnrolled` (`student_id`, `section_code`) VALUES
+(1, 4819),
+(1, 2057),
+(2, 3220),
+(2, 8301),
+(3, 2057),
+(4, 4819),
+(5, 3220),
+(6, 8301),
+(7, 2057),
+(8, 4819),
+(9, 3220),
+(10, 8301);
 
---
--- Tablo için AUTO_INCREMENT değeri `sections`
---
-ALTER TABLE `sections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- Tablo için AUTO_INCREMENT değeri `semesters`
---
-ALTER TABLE `semesters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+INSERT INTO `coursesCompleted` (`student_id`, `course_code`) VALUES
+(1, 'BIOL101'),
+(1, 'BIOL202'),
+(2, 'BIOL101'),
+(3, 'BIOL101'),
+(3, 'BIOL202'),
+(4, 'BIOL101'),
+(5, 'BIOL101'),
+(6, 'BIOL202'),
+(7, 'BIOL101'),
+(8, 'BIOL202'),
+(9, 'BIOL101'),
+(10, 'BIOL101');
 
---
--- Tablo için AUTO_INCREMENT değeri `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
---
--- Tablo için AUTO_INCREMENT değeri `users_schedules`
---
-ALTER TABLE `users_schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `FriendsWith` (`student_id1`, `student_id2`) VALUES
+(1, 2),
+(1, 3),
+(2, 4),
+(3, 5),
+(4, 6),
+(5, 7),
+(6, 8),
+(7, 9),
+(8, 10),
+(2, 5),
+(3, 6);
 
---
--- Dökümü yapılmış tablolar için kısıtlamalar
---
 
---
--- Tablo kısıtlamaları `sections`
---
-ALTER TABLE `sections`
-  ADD CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `sections_ibfk_2` FOREIGN KEY (`semester_id`) REFERENCES `semesters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+INSERT INTO `PrerequisiteOf` (`course_code`, `prerequisite_course_code`) VALUES
+('BIOL202', 'BIOL101'),
+('BIOL303', 'BIOL202'),
+('BIOL404', 'BIOL303'),
+('BIOL505', 'BIOL404'),
+('BIOL606', 'BIOL505'),
+('BIOL707', 'BIOL606'),
+('BIOL808', 'BIOL707'),
+('BIOL909', 'BIOL808'),
+('BIOL999', 'BIOL909');
 
---
--- Tablo kısıtlamaları `users_schedules`
---
-ALTER TABLE `users_schedules`
-  ADD CONSTRAINT `users_schedules_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `users_schedules_ibfk_2` FOREIGN KEY (`semester_id`) REFERENCES `semesters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `users_schedules_ibfk_3` FOREIGN KEY (`course_offering_id`) REFERENCES `sections` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
