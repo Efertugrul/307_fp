@@ -1,10 +1,22 @@
 /* global.css */
-body {
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Rubik', sans-serif;
     background: #ffffff;
     color: #00171F;
+}
+
+/* Main content wrapper - add this to all your pages */
+.main-content {
+    flex: 1 0 auto;
 }
 
 a {
@@ -17,6 +29,7 @@ a {
 }
 
 .footer {
+    flex-shrink: 0;
     font-size: 0.9em;
     background: #00171F;
     color: #ffffff;

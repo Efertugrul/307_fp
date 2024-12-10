@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Login";
 $pageCSS = [
+    '../assets/css/global.css',
     '../assets/css/login.css'
 ];
 $pageJS = [
@@ -15,7 +16,7 @@ if (isset($_SESSION['user_id'])) {
 }
 ?>
 
-<div class="container mt-5">
+<div class="main-content container mt-5">
     <h2 class="text-center mb-4">Login</h2>
 
     <?php
