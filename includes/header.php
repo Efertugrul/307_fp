@@ -75,7 +75,7 @@ if ($current_page === 'index.php' && isset($_SESSION['user_id'])) {
     ?>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background:#00171F;">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="index.php">
             <img src="../assets/images/logo.png" alt="Logo" height="40">

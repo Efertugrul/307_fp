@@ -28,6 +28,10 @@ a {
     height: 40px;
 }
 
+.navbar {
+    background-color: #00A8E8;
+}
+
 .footer {
     flex-shrink: 0;
     font-size: 0.9em;
