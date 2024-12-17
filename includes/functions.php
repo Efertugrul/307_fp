@@ -1,3 +1,4 @@
+<!-- coded by Efe -->
 <?php
 
 function sanitizeInput($data) {

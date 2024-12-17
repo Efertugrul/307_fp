@@ -1,3 +1,4 @@
+// coded by Tim Galyanov
 
 document.addEventListener('DOMContentLoaded', function () {
     const semesterRadios = document.querySelectorAll('input[name="semester"]');

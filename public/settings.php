@@ -1,3 +1,5 @@
+<!-- coded by William Rodzen-Staff -->
+
 <?php
 $pageTitle = "Settings";
 $pageCSS = [

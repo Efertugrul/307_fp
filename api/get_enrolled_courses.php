@@ -1,3 +1,4 @@
+<!-- coded by Tim Galyanov -->
 <?php 
 include '../includes/config.php';
 include '../includes/functions.php';

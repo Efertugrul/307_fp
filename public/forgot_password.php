@@ -1,3 +1,4 @@
+<!-- coded by Efe -->
 <?php
 include_once '../includes/functions.php';
 

@@ -1,3 +1,4 @@
+// coded by Jaiten Kang
 document.addEventListener('DOMContentLoaded', function () {
     for (const [degree_id, degree] of Object.entries(degreeProgressData)) {
         const ctx = document.getElementById(`progressChart_${degree_id}`).getContext('2d');

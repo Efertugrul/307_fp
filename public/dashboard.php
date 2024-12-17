@@ -1,3 +1,5 @@
+<!-- coded by Tim Galyanov -->
+
 <?php
 
 include '../includes/header.php'; 

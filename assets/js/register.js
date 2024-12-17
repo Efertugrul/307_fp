@@ -1,3 +1,5 @@
+// coded by Efe
+
 document.addEventListener('DOMContentLoaded', function () {
     const registrationForm = document.querySelector('.register-form');
     const majorSelect = document.getElementById('major');

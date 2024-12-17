@@ -1,3 +1,5 @@
+<!-- coded by Jaiten Kang -->
+
 <?php
 $pageTitle = "My Progress";
 $pageCSS = [

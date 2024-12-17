@@ -1,3 +1,5 @@
+<!-- coded by Efe -->
+
 <?php
 $pageTitle = "Register";
 $pageCSS = [

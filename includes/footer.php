@@ -1,3 +1,4 @@
+<!-- coded by William Rodzen-Staff -->
 <?php
 ?>
 <footer class="footer bg-dark text-white py-4">

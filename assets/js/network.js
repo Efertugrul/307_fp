@@ -1,3 +1,4 @@
+// coded by Efe
 document.addEventListener('DOMContentLoaded', function () {
     const friendsList = document.getElementById('friendsList');
     const pendingReceivedList = document.getElementById('pendingReceivedList');
